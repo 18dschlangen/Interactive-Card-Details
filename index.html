@@ -1,51 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Interactive card details form</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Frontend Mentor | Interactive card details form</title>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style></style>
+  </head>
+  <body class="background">
+    <img
+      src="./images/bg-main-desktop.png"
+      alt="purple background"
+      class="backgroundimg"
+    />
+    <div class="frontcard">
+      <img
+        src="./images/bg-card-front.png"
+        alt="card front"
+        class="frontcardpic"
+      />
+      <img src="./images/card-logo.svg" alt="logo" class="logo" />
+      <div class="cardnumber" id="cardnumber">0000 0000 0000 0000</div>
+      <div class="cardholder" id="cardholder">Jane Appleseed</div>
+      <div class="expiration" id="expiration">00/00</div>
+    </div>
+    <div class="backcard">
+      <img
+        src="./images/bg-card-back.png"
+        alt="card back"
+        class="backcardpic"
+      />
+      <div class="securitycode" id="security">000</div>
+    </div>
+    <form class="container" id="olddisplay" style="display: block">
+      <div class="input">
+        Cardholder Name
+        <input
+          required
+          type="text"
+          placeholder="e.g. Jane Appleseed"
+          class="inputfield"
+          id="cardholderin"
+        />
+      </div>
+      <div class="input">
+        Card Number
+        <input
+          required
+          type="text"
+          placeholder="e.g. 1234 5678 9123 0000"
+          class="inputfield"
+          id="cardnumberin"
+        />
+      </div>
+      <div class="minicontainer">
+        <div class="exp">
+          Exp. Date (MM/YY)
+          <div class="expinput">
+            <input
+              required
+              type="text"
+              placeholder="MM"
+              class="in"
+              id="expirationmonthin"
+            />
+            <input
+              required
+              type="text"
+              placeholder="YY"
+              class="in"
+              id="expirationyearin"
+            />
+          </div>
+        </div>
+        <div class="cvc">
+          CVC
+          <input
+            required
+            type="text"
+            placeholder="e.g. 123"
+            class="cvcin"
+            id="securityin"
+          />
+        </div>
+      </div>
+      <button id="submit" type="submit">Confirm</button>
+    </form>
+    <div style="display: none" id="newdisplay" class="container thanks">
+      <img src="./images/icon-complete.svg" alt="checkmark" />
+      <div class="thankyou">Thank you!</div>
+      <div class="added">We've added your card details</div>
+      <button>Continue</button>
+    </div>
 
-  0000 0000 0000 0000
-  Jane Appleseed
-  00/00
+    <!-- Completed state start -->
 
-  000
+    <div style="display: none" class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div>
+  </body>
+  <script>
+    const cardNumber = document.getElementById("cardnumber");
+    const cardHolder = document.getElementById("cardholder");
+    const expiration = document.getElementById("expiration");
+    const security = document.getElementById("security");
+    const cardNumberIn = document.getElementById("cardnumberin");
+    const cardHolderIn = document.getElementById("cardholderin");
+    const securityIn = document.getElementById("securityin");
+    const expirationMonthIn = document.getElementById("expirationmonthin");
+    const expirationYearIn = document.getElementById("expirationyearin");
+    const submit = document.getElementById("submit");
+    const newDisplay = document.getElementById("newdisplay");
+    const oldDisplay = document.getElementById("olddisplay");
 
-  Cardholder Name
-  e.g. Jane Appleseed
+    const spaces = (x) => {
+      let newx = "";
+      for (let i = 0; i < 16; i++) {
+        if (i % 4 == 3) {
+          console.log("i", i);
+          newx += x[i] + " ";
+        } else {
+          newx += x[i];
+        }
+      }
+      return newx;
+    };
 
-  Card Number
-  e.g. 1234 5678 9123 0000
-
-  Exp. Date (MM/YY)
-  MM
-  YY
-
-  CVC
-  e.g. 123
-
-  Confirm
-
-  <!-- Completed state start -->
-
-  Thank you!
-  We've added your card details
-  Continue
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+    submit.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("cardNumberIn.innerText", cardNumberIn.value);
+      if (
+        /[a-z]/gi.test(cardHolderIn.value) &&
+        /[0-9]/g.test(cardNumberIn.value) &&
+        /[0-9]/g.test(expirationMonthIn.value) &&
+        /[0-9]/g.test(expirationYearIn.value) &&
+        /[0-9]/g.test(securityIn.value) &&
+        cardNumberIn.value.length == 16 &&
+        expirationMonthIn.value.length == 2 &&
+        expirationYearIn.value.length == 2 &&
+        securityIn.value.length == 3
+      ) {
+        oldDisplay.style.display = "none";
+        newDisplay.style.display = "block";
+        cardNumber.innerText = spaces(cardNumberIn.value);
+        cardHolder.innerText = cardHolderIn.value;
+        expiration.innerText =
+          expirationMonthIn.value + "/" + expirationYearIn.value;
+        security.innerText = securityIn.value;
+      } else {
+        alert("fill fields correctly");
+      }
+    });
+  </script>
 </html>
